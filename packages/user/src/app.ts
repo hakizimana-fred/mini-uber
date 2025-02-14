@@ -8,6 +8,7 @@ import express, { Application } from 'express';
 import helmet from 'helmet';
 import http from 'http';
 import morgan from 'morgan';
+import { connectDB } from './config/db';
 import { resolvers } from './data/resolvers/resolver';
 import { typeDefs } from './data/schema/schema';
 import { validatePort } from './utils/portValidator';
@@ -34,8 +35,11 @@ const main = async () => {
     expressMiddleware(server) as any
   );
 
-  await new Promise((resolve: any) => httpServer.listen({ port }, resolve));
-  console.log(`🚀 Server ready at http://localhost:${port}`);
+  // connect to DB
+  connectDB(process.env.MONGO_URI as string).then(async () => {
+    await new Promise((resolve: any) => httpServer.listen({ port }, resolve));
+    console.log(`🚀 Server ready at http://localhost:${port}`);
+  });
 };
 
 main().catch((err) => {

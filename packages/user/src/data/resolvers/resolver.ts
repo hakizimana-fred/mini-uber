@@ -14,7 +14,7 @@ export const resolvers = {
   },
 
   Mutation: {
-    user: (_: any, { name, email, password }: User): User => {
+    register: (_: any, { name, email, password }: User): User => {
       return {
         name: name,
         email: email,
