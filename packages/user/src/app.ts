@@ -40,6 +40,18 @@ const main = async () => {
     await new Promise((resolve: any) => httpServer.listen({ port }, resolve));
     console.log(`🚀 Server ready at http://localhost:${port}`);
   });
+
+  const shutdown = async () => {
+    console.log('Shutting down server...');
+    await server.stop();
+    httpServer.close(() => {
+      console.log('HTTP server closed.');
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
 };
 
 main().catch((err) => {
