@@ -13,6 +13,26 @@ type User = {
   password: string;
   accessToken?: string;
   role?: 'user' | 'rider';
+  vehicleInfo?: Vehicle;
+  isAvailable?: boolean;
+  currentLocation?: LocationInput;
+};
+
+type Location = {
+  type: string;
+  coordinates: [number, number];
+};
+
+type LocationInput = {
+  latitude: number;
+  longitude: number;
+};
+
+type Vehicle = {
+  model: string;
+  year: number;
+  plateNumber: string;
+  color: string;
 };
 
 type SafeUser = Omit<User, 'password'>;
@@ -21,22 +41,44 @@ export const resolvers = {
   Mutation: {
     register: async (
       _: any,
-      { name, email, password, role }: User
+      {
+        input: {
+          name,
+          email,
+          password,
+          role,
+          vehicleInfo,
+          isAvailable,
+          currentLocation,
+        },
+      }: { input: User }
     ): Promise<SafeUser> => {
       try {
         validateUserInput(name, email, password);
-        // find user by email
+
+        //find user by email
         const user = await User.findOne({ email });
         if (user) {
           throw new ApolloError('User already exists');
         }
         const hashedPassword = await argon2.hash(password);
-        // create new user
+
+        const geoLocation: Location = {
+          type: 'Point',
+          coordinates: [
+            currentLocation?.latitude as number,
+            currentLocation?.longitude as number,
+          ], // Longitude comes first!
+        };
+        //create new user
         const newUser = new User({
           name,
           email,
           password: hashedPassword,
           role: role || 'user',
+          isAvailable: isAvailable || false,
+          vehicleInfo,
+          currentLocation: geoLocation,
         });
 
         await newUser.save();
@@ -45,9 +87,12 @@ export const resolvers = {
           email: newUser.email,
           accessToken: generateAccessToken(newUser),
           role: newUser.role as unknown as 'user' | 'rider',
+          isAvailable: newUser.isAvailable,
+          vehicleInfo: newUser.vehicleInfo,
+          currentLocation: newUser.currentLocation as unknown as any,
         };
-        console.log(savedUser, 'savedUser');
         return savedUser;
+        //return { name: 'haki', email: 'fred@gmail.com' };
       } catch (err) {
         throw err;
       }

@@ -7,7 +7,22 @@ interface UserDocument extends Document {
   email: string;
   password: string;
   role: USERROLe;
+  vehicleInfo: Vehicle;
+  isAvailable: boolean;
+  currentLocation: Location;
 }
+
+type Vehicle = {
+  model: string;
+  year: number;
+  plateNumber: string;
+  color: string;
+};
+
+type Location = {
+  type: string;
+  coordinates: [number, number];
+};
 
 enum USERROLe {
   user,

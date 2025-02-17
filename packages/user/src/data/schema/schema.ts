@@ -43,7 +43,7 @@ input VehicleInput {
     password: String!
     accessToken: String
     role: String
-     vehicleInfo: Vehicle
+    vehicleInfo: Vehicle
     isAvailable: Boolean
     currentLocation: Location
   }
