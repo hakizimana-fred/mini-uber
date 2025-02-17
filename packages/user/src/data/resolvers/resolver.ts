@@ -1,11 +1,11 @@
 import { ApolloError } from 'apollo-server-core';
 import argon2 from 'argon2';
-import User from '../../../models/User.model';
-import { generateAccessToken } from '../../utils/generateAccessToken';
+import { generateAccessToken } from '../../../../utils/src/generateAccessToken';
 import {
   validateLoginInput,
   validateUserInput,
-} from '../../utils/sanitizeInputs';
+} from '../../../../utils/src/sanitizeInputs';
+import User from '../../../models/User.model';
 
 type User = {
   name: string;

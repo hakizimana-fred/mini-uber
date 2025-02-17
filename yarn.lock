@@ -836,6 +836,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@myuber/utils@^1.0.0, @myuber/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@myuber/utils@workspace:packages/utils"
+  dependencies:
+    typescript: ^4.9.0
+  languageName: unknown
+  linkType: soft
+
 "@napi-rs/wasm-runtime@npm:0.2.4":
   version: 0.2.4
   resolution: "@napi-rs/wasm-runtime@npm:0.2.4"
@@ -5261,6 +5269,7 @@ __metadata:
     "@apollo/server": ^4.11.3
     "@commitlint/cli": ^19.7.1
     "@commitlint/config-conventional": ^19.7.1
+    "@myuber/utils": ^1.0.0
     "@types/cors": ^2.8.17
     "@types/express": ^5.0.0
     "@types/jsonwebtoken": ^9.0.8
@@ -6909,6 +6918,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ride@workspace:packages/ride":
+  version: 0.0.0-use.local
+  resolution: "ride@workspace:packages/ride"
+  dependencies:
+    "@apollo/server": ^4.11.3
+    "@myuber/utils": ^1.0.0
+    "@types/compression": ^1.7.5
+    chalk: ^5.4.1
+    compression: ^1.8.0
+    cross-env: ^7.0.3
+    rimraf: ^6.0.1
+    ts-node: ^10.9.2
+  languageName: unknown
+  linkType: soft
+
 "rimraf@npm:^4.4.1":
   version: 4.4.1
   resolution: "rimraf@npm:4.4.1"
@@ -7753,6 +7777,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^4.9.0":
+  version: 4.9.5
+  resolution: "typescript@npm:4.9.5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@>=3 < 6#~builtin<compat/typescript>":
   version: 5.7.3
   resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=29ae49"
@@ -7760,6 +7794,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 633cd749d6cd7bc842c6b6245847173bba99742a60776fae3c0fbcc0d1733cd51a733995e5f4dadd8afb0e64e57d3c7dbbeae953a072ee303940eca69e22f311
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.9.0#~builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 1f8f3b6aaea19f0f67cba79057674ba580438a7db55057eb89cc06950483c5d632115c14077f6663ea76fd09fce3c190e6414bb98582ec80aa5a4eaf345d5b68
   languageName: node
   linkType: hard
 
@@ -7862,6 +7906,7 @@ __metadata:
   resolution: "user@workspace:packages/user"
   dependencies:
     "@apollo/server": ^4.11.3
+    "@myuber/utils": ^1.0.0
     "@types/compression": ^1.7.5
     chalk: ^5.4.1
     compression: ^1.8.0
