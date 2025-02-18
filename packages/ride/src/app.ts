@@ -11,21 +11,8 @@ import http from 'http';
 import morgan from 'morgan';
 
 import { connectDB } from './config/db';
-// import { resolvers } from './data/resolvers/resolver';
-// import { typeDefs } from './data/schema/schema';
-
-const typeDefs = `#graphql
-  type Query {
-    hello: String
-  }
-`;
-
-// A map of functions which return data for the schema.
-const resolvers = {
-  Query: {
-    hello: () => 'world',
-  },
-};
+import { resolvers } from './data/resolvers';
+import { typeDefs } from './data/schema';
 
 const port = validatePort((process.env.PORT as string) || 3000);
 const app: Application = express();
