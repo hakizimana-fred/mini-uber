@@ -1,10 +1,10 @@
-import { ApolloError } from 'apollo-server-core';
-import argon2 from 'argon2';
-import { generateAccessToken } from '../../../../utils/src/generateAccessToken';
 import {
+  generateAccessToken,
   validateLoginInput,
   validateUserInput,
-} from '../../../../utils/src/sanitizeInputs';
+} from '@myuber/utils';
+import { ApolloError } from 'apollo-server-core';
+import argon2 from 'argon2';
 import User from '../../../models/User.model';
 
 type User = {
@@ -98,7 +98,10 @@ export const resolvers = {
       }
     },
 
-    login: async (_: any, { email, password }: User): Promise<SafeUser> => {
+    login: async (
+      _: any,
+      { input: { email, password } }: { input: User }
+    ): Promise<SafeUser> => {
       try {
         validateLoginInput(email, password);
         // find user by email
@@ -109,6 +112,7 @@ export const resolvers = {
         if (!(await argon2.verify(user.password, password))) {
           throw new ApolloError('Invalid credentials');
         }
+        console.log('loggin user', user._id);
         generateAccessToken(user);
 
         const savedUser = {

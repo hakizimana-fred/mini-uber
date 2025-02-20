@@ -1,23 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 export interface IRide {
   userId: mongoose.ObjectId;
   driverId?: string;
   status: 'requested' | 'accepted' | 'started' | 'completed' | 'cancelled';
-  pickup: {
-    location: {
-      type: string;
-      coordinates: [number, number];
-    };
-    address: string;
-  };
-  destination: {
-    location: {
-      type: string;
-      coordinates: [number, number];
-    };
-    address: string;
-  };
+  pickup: Location;
+  destination: Location;
   requestedAt: Date;
   acceptedAt?: Date;
   startedAt?: Date;
@@ -30,6 +18,11 @@ export interface IRide {
   paymentStatus: 'pending' | 'completed' | 'failed';
 }
 
+type Location = {
+  type: string;
+  coordinates: [number, number];
+};
+
 const RideSchema = new Schema<IRide>({
   userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   driverId: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -39,25 +32,20 @@ const RideSchema = new Schema<IRide>({
     required: true,
   },
   pickup: {
-    location: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
-      coordinates: { type: [Number], required: true },
-    },
-    address: { type: String, required: true },
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: { type: [Number], default: [0, 0] },
   },
   destination: {
-    location: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
-      coordinates: { type: [Number], required: true },
-    },
-    address: { type: String, required: true },
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: { type: [Number], default: [0, 0] },
   },
+
   requestedAt: { type: Date, default: Date.now },
   acceptedAt: Date,
   startedAt: Date,
   completedAt: Date,
   cancelledAt: Date,
-  estimatedPrice: { type: Number, required: true },
+  estimatedPrice: { type: Number, required: false },
   finalPrice: Number,
   distance: Number,
   duration: Number,
@@ -70,3 +58,5 @@ const RideSchema = new Schema<IRide>({
 
 RideSchema.index({ pickup: '2dsphere' });
 RideSchema.index({ destination: '2dsphere' });
+
+export default model('Ride', RideSchema);

@@ -28,6 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.11.3",
+    "@myuber/middlewares": "^1.0.0",
     "@myuber/utils": "^1.0.0",
     "apollo-server-core": "^3.13.0",
     "argon2": "^0.41.1",

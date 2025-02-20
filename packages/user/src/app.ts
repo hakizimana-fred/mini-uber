@@ -33,7 +33,9 @@ const main = async () => {
     helmet(),
     morgan('dev'),
     compression(),
-    expressMiddleware(server) as any
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ req }), // Pass request to resolvers
+    }) as any
   );
 
   // connect to DB

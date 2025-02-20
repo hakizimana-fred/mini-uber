@@ -9,8 +9,8 @@ import express, { Application } from 'express';
 import helmet from 'helmet';
 import http from 'http';
 import morgan from 'morgan';
-
 import { connectDB } from './config/db';
+
 import { resolvers } from './data/resolvers';
 import { typeDefs } from './data/schema';
 
@@ -20,7 +20,7 @@ const app: Application = express();
 const main = async () => {
   const httpServer = http.createServer(app);
 
-  const server = new ApolloServer({
+  const server: ApolloServer<any> = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -33,26 +33,30 @@ const main = async () => {
     helmet(),
     morgan('dev'),
     compression(),
-    expressMiddleware(server) as any
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        return { req };
+      },
+    }) as any
   );
 
-  // connect to DB
+  // // connect to DB
   connectDB(process.env.MONGO_URI as string).then(async () => {
     await new Promise((resolve: any) => httpServer.listen({ port }, resolve));
     console.log(`🚀 Server ready at http://localhost:${port}`);
   });
 
-  const shutdown = async () => {
-    console.log('Shutting down server...');
-    await server.stop();
-    httpServer.close(() => {
-      console.log('HTTP server closed.');
-      process.exit(0);
-    });
-  };
+  // const shutdown = async () => {
+  //   console.log('Shutting down server...');
+  //   await server.stop();
+  //   httpServer.close(() => {
+  //     console.log('HTTP server closed.');
+  //     process.exit(0);
+  //   });
+  // };
 
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
+  // process.on('SIGINT', shutdown);
+  // process.on('SIGTERM', shutdown);
 };
 
 main().catch((err) => {

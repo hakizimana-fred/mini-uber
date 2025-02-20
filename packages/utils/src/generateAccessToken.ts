@@ -7,6 +7,6 @@ export function generateAccessToken(user: any) {
       email: user.email,
     },
     process.env.ACCESS_TOKEN_SECRET as string,
-    { expiresIn: '15m' }
+    { expiresIn: '5d' }
   );
 }
