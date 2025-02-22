@@ -1,7 +1,8 @@
-# User Service Dockerfile
-FROM node:18-alpine
+# Update the base image to Node.js 20
+FROM node:20.11.1
 
-WORKDIR /app
+# WORKDIR /app
+WORKDIR /app/packages/user
 
 # Copy root package.json and lerna.json
 COPY package.json .
@@ -10,10 +11,11 @@ COPY yarn.lock .
 
 # Copy the user service package.json
 COPY packages/user/package.json ./packages/user/
+COPY tsconfig.base.json ./tsconfig.base.json
 COPY packages/user/tsconfig.json ./packages/user/
+COPY packages/user/.env ./packages/user/
 
 # Copy shared packages if any
-COPY packages/utils/package.json ./packages/utils/
 
 # Install dependencies
 RUN yarn install
@@ -23,10 +25,13 @@ COPY packages/user/src ./packages/user/src
 COPY packages/utils/src ./packages/utils/src
 
 # Build the service
-RUN cd packages/user && yarn build
+# RUN  npm run dev
 
 # Expose the port your service runs on
 EXPOSE 4000
 
 # Start the service
-CMD ["yarn", "workspace", "user", "start"]
+CMD ["yarn", "workspace", "user", "dev"]
+
+
+

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
+import { rideRequestProducer } from '../../../amqlib/src/rideProducer';
 import Ride from '../models/Ride.model';
 
 type IRideInput = {
@@ -81,6 +82,13 @@ export const resolvers = {
           },
         });
         await newRide.save();
+        // publish to rabbitmq
+        await rideRequestProducer.publishRideRequest({
+          rideId: newRide._id as any,
+          pickup: newRide.pickup,
+          userId: newRide.userId as any,
+        } as any);
+
         return true;
       } catch (e) {
         console.log(e);

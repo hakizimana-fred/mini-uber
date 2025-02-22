@@ -18,6 +18,8 @@ services:
       dockerfile: packages/user/Dockerfile
     ports:
       - '4000:4000'
+    volumes:
+      - ./packages/user/src:/app/packages/user/src
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://root:example@mongodb:27017

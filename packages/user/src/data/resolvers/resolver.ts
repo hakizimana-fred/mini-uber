@@ -1,11 +1,17 @@
+// import {
+//   generateAccessToken,
+//   validateLoginInput,
+//   validateUserInput,
+// } from '@myuber/utils';
+
+import { ApolloError } from 'apollo-server-core';
+import argon2 from 'argon2';
 import {
   generateAccessToken,
   validateLoginInput,
   validateUserInput,
-} from '@myuber/utils';
-import { ApolloError } from 'apollo-server-core';
-import argon2 from 'argon2';
-import User from '../../../models/User.model';
+} from '../../../../utils/src';
+import User from '../../models/User.model';
 
 type User = {
   name: string;
