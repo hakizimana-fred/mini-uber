@@ -62,7 +62,6 @@ module.exports = {
     //     PORT: 4700,
     //     MONGO_URI: 'mongodb://localhost:27017/myuber',
     //     ACCESS_TOKEN_SECRET: 'MYACCESSTOKENSECRET213',
-    //     STRIPE_SECRET: 'sk_test_qLaTE7Ey5tKunwVEMwPpGHMR',
     //   },
     // },
   ],
